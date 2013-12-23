@@ -1,12 +1,12 @@
-<?php
 
-moduleloader::includeModule('follow');
+    <?php
+
+    moduleloader::includeModule('follow');
 
 
+    $f = new follow ();
+    $f->initJs();
+    $f->getFollowHtml(session::getUserId(), 100, 'test');
+    echo "<br />\n";
 
-$f = new follow ();
-$f->initJs();
-$f->showButton(session::getUserId(), 100, 'test');
-echo "<br />\n";
-
-$f->showButton(session::getUserId(), 111, 'test');
+    $f->getFollowHtml(session::getUserId(), 111, 'test');

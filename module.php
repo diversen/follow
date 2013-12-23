@@ -1,7 +1,7 @@
 <?php
 
 /**
- * check to se if any override functions exists
+ * check to se if any override functions exists in templates
  */
 view::includeOverrideFunctions('follow', 'views.php');
 
@@ -17,10 +17,52 @@ class follow {
      * @param type $parent_id
      * @param type $reference
      */
-    public function showButton ($user_id, $parent_id, $reference = '') { 
+    public function getFollowHtml ($user_id, $parent_id, $reference = '') { 
         $status = $this->getStatus($user_id, $parent_id, $reference);
-        follow_views::showButton($parent_id, $reference, $status);
+        return follow_views::showButton($parent_id, $reference, $status);
     }
+    
+    /**
+     * when used as a sub module
+     * @param array $options e.g array ('reference' => 'blog', 'parent_id' => 100);
+     * @return string $html
+     */
+    public function subModulePostContent($options) {
+
+        $hash = "follow-$options[parent_id]-$options[reference]";
+        $str = <<<EOF
+<div class="follow_box">
+<a name="$hash"></a>
+EOF;
+        
+        $f = new follow();
+        $return_url = $options['return_url'] . "#" . $hash;
+        if (!session::isUser()) {
+            $str.=$f->getNotLoggedInHtml($return_url);
+        } else {
+            $f->initJs();
+            $follow_html = $f->getFollowHtml(session::getUserId(), $options['parent_id'], $options['reference']);
+            $str.= html::getHeadline($follow_html);
+        }
+        
+        $str.= <<<EOF
+</div>
+EOF;
+        return $str;
+    }
+    
+    /**
+     * get html for display when a user is not logged in. 
+     * @param string $return_to the url to return to after log in including # mark 
+     * @return type
+     */
+    public function getNotLoggedInHtml ($return_to) {
+        $return_to = rawurlencode($return_to);
+        $extra = array ('title' => lang::translate('Log in in order to follow this post'));
+        $str = html::createLink("/account/index?return_to=$return_to", lang::translate('Follow'), $extra);
+        return $str;
+    }
+
     
     /**
      * some javascript to generate the rpc call
@@ -52,7 +94,7 @@ $(function() {
 });
 
 
-</script><? 
+</script><?php
     }
     
     /**
