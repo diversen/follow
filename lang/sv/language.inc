@@ -1,5 +1,6 @@
 <?php
 
+$_COS_LANG_MODULE['You need to log in if you want to follow'] = 'Du måste logga in om du vill följa';
 $_COS_LANG_MODULE['Log in in order to follow this post'] = 'Logga in för att kunna följa detta inlägg';
 $_COS_LANG_MODULE['Follow'] = 'Följ';
 $_COS_LANG_MODULE['Log in to follow'] = 'Logga in för att följa';

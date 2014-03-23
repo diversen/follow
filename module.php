@@ -36,7 +36,9 @@ class follow {
 EOF;
         
         $f = new follow();
-        $return_url = $options['return_url'] . "#" . $hash;
+        $return_url = "/account/index?return_to =" .
+        rawurlencode($options['return_url'] . "#" . $hash) . 
+                "&message=" . rawurlencode(lang::translate('You need to log in if you want to follow'));
         if (!session::isUser()) {
             $str.=$f->getNotLoggedInHtml($return_url);
         } else {
@@ -56,10 +58,10 @@ EOF;
      * @param string $return_to the url to return to after log in including # mark 
      * @return type
      */
-    public function getNotLoggedInHtml ($return_to) {
-        $return_to = rawurlencode($return_to);
+    public function getNotLoggedInHtml ($url) {
+        //$return_to = rawurlencode($url);
         $extra = array ('title' => lang::translate('Log in in order to follow this post'));
-        $str = html::createLink("/account/index?return_to=$return_to", lang::translate('Follow'), $extra);
+        $str = html::getHeadline(html::createLink($url, lang::translate('Follow'), $extra));
         return $str;
     }
 
