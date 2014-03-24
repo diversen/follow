@@ -36,7 +36,7 @@ class follow {
 EOF;
         
         $f = new follow();
-        $return_url = "/account/index?return_to =" .
+        $return_url = "/account/index?return_to=" .
         rawurlencode($options['return_url'] . "#" . $hash) . 
                 "&message=" . rawurlencode(lang::translate('You need to log in if you want to follow'));
         if (!session::isUser()) {
@@ -171,6 +171,7 @@ $(function() {
     
         if (empty($row)) { 
             $values = compact('user_id', 'parent_id', 'reference');
+            $values['uniqid'] = md5(uniqid('', true));
             $res = db_q::insert('follow')->values($values)->exec();
             $this->status = lang::translate('Click to unfollow');
         }
