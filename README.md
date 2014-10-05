@@ -3,12 +3,18 @@
 A simple module which enables a user to follow anything 
 (like on stackoverflow.com)
 
-### Example
+### As sub module
+
+e.g. in contented
+ad to configuration 
+
+    content_view_sub_modules[4] = "follow"
+
+### As standalone
 
     <?php
 
     moduleloader::includeModule('follow');
-
 
     $f = new follow ();
     $f->initJs();
