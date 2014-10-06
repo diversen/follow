@@ -1,5 +1,6 @@
 <?php
 
+
 // Translation of file /modules/follow/module.php
 
 $_COS_LANG_MODULE['You need to log in if you want to follow'] = 'You need to log in if you want to follow';
